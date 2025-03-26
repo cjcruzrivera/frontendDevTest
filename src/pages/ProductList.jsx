@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchProducts } from "../services/apiService";
 import Item from "../components/Item";
 import Search from "../components/Search";
 
@@ -10,12 +10,12 @@ function ProductList() {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get("https://itx-frontend-test.onrender.com/api/product")
-      .then(response => {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
+    fetchProducts()
+      .then(data => {
+        setProducts(data);
+        setFilteredProducts(data);
       })
-      .catch(error => console.error("Error fetching products:", error))
+      .catch(error => console.error("Error:", error))
       .finally(() => setIsLoading(false));
   }, []);
 

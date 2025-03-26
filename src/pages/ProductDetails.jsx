@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { fetchProductDetails } from "../services/apiService";
 import Image from "../components/Image";
 import Description from "../components/Description";
 import Actions from "../components/Actions";
@@ -11,10 +12,9 @@ function ProductDetails() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://itx-frontend-test.onrender.com/api/product/${id}`)
-      .then((res) => res.json())
-      .then((data) => setProduct(data))
-      .catch((err) => console.error(err))
+    fetchProductDetails(id)
+      .then(data => setProduct(data))
+      .catch(err => console.error(err))
       .finally(() => setIsLoading(false));
   }, [id]);
 
