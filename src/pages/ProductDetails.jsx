@@ -7,16 +7,23 @@ import Actions from "../components/Actions";
 function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`https://itx-frontend-test.onrender.com/api/product/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
   }, [id]);
 
-  if (!product) {
-    return <p className="loading">Cargando...</p>;
+  if (isLoading) {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
   }
 
   return (
